@@ -1,0 +1,382 @@
+.crContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.crContainer .crHeader {
+  padding: 14px 30px 0;
+}
+.crContainer .crHeader .crHeader-main {
+  display: flex;
+  justify-content: flex-end;
+  border-bottom: 1px solid #dfdfdf;
+  padding: 11px 0;
+}
+.crContainer .crHeader .crHeader-main > span {
+  line-height: 27px;
+}
+.crContainer .crHeader .crHeader-main .ivu-select-selection,
+.crContainer .crHeader .crHeader-main .ivu-input-icon,
+.crContainer .crHeader .crHeader-main .ivu-input {
+  height: 27px;
+  line-height: 27px;
+}
+.crContainer .crHeader .crHeader-main .ivu-select-selection .ivu-select-placeholder,
+.crContainer .crHeader .crHeader-main .ivu-input-icon .ivu-select-placeholder,
+.crContainer .crHeader .crHeader-main .ivu-input .ivu-select-placeholder,
+.crContainer .crHeader .crHeader-main .ivu-select-selection .ivu-select-selected-value,
+.crContainer .crHeader .crHeader-main .ivu-input-icon .ivu-select-selected-value,
+.crContainer .crHeader .crHeader-main .ivu-input .ivu-select-selected-value {
+  height: 25px;
+  line-height: 25px;
+}
+.crContainer .crHeader .crHeader-main .ivu-icon-ios-calendar-outline {
+  background: url(../assets/images/calendar.png) no-repeat center;
+}
+.crContainer .crHeader .crHeader-main .ivu-icon-ios-calendar-outline:before {
+  content: "";
+}
+.crContainer .crHeader .crHeader-main .ivu-icon-ios-close {
+  cursor: pointer ;
+}
+.crContainer .crHeader .crHeader-main .ivu-date-picker-cells-cell-selected em,
+.crContainer .crHeader .crHeader-main .ivu-date-picker-cells-cell-selected:hover em {
+  background-color: #e74e66;
+}
+.crContainer .crHeader2-main {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 30px;
+  font-size: 14px;
+}
+.crContainer .crBody {
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+  padding: 0 30px;
+  flex: 5;
+  width: 100%;
+}
+.crContainer .crBody .crItem {
+  width: 100%;
+}
+.crContainer .crBody .crItem .crTitle {
+  padding: 0 0 20px 0;
+  font-size: 14px;
+}
+.crContainer .crBody .crItem .courseList {
+  display: flex;
+  flex-wrap: wrap;
+}
+.crContainer .crBody .crItem .courseList li {
+  width: 184px;
+  height: 215px;
+  margin-right: 33.5px;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 30px;
+  padding: 25px 18px 0;
+  position: relative;
+  background: url("../assets/student/courseRecordCard.png") no-repeat center;
+}
+.crContainer .crBody .crItem .courseList li.evaluation {
+  background: url("../assets/student/evaluationBg.png") no-repeat center;
+}
+.crContainer .crBody .crItem .courseList li.evaluation:after {
+  position: absolute;
+  content: '测';
+  color: #fff;
+  font-size: 12px;
+  right: 11px;
+  top: 9px;
+  line-height: 1;
+}
+.crContainer .crBody .crItem .courseList li.debug {
+  background: url("../assets/student/debugBg.png") no-repeat center;
+}
+.crContainer .crBody .crItem .courseList li.debug:after {
+  position: absolute;
+  content: '调';
+  color: #fff;
+  font-size: 12px;
+  right: 11px;
+  top: 9px;
+  line-height: 1;
+}
+.crContainer .crBody .crItem .courseList li .courseMain {
+  border-radius: 4px;
+  overflow: hidden;
+  background: #fff;
+}
+.crContainer .crBody .crItem .courseList li .courseMain .courseVideo {
+  height: 82px;
+  position: relative;
+  overflow: hidden;
+}
+.crContainer .crBody .crItem .courseList li .courseMain .courseVideo .playVideo {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  transition: all ease-out 250ms;
+  cursor: pointer;
+  z-index: 2;
+}
+.crContainer .crBody .crItem .courseList li .courseMain .courseVideo .playVideo > img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 31px;
+  margin: -15.5px 0 0 -15.5px;
+  transform: scale(2);
+  transition: all ease-out 250ms;
+  opacity: 0;
+}
+.crContainer .crBody .crItem .courseList li .courseMain .courseVideo .playVideo:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.crContainer .crBody .crItem .courseList li .courseMain .courseVideo .playVideo:hover > img {
+  opacity: 1;
+  transform: scale(1);
+}
+.crContainer .crBody .crItem .courseList li .courseMain .courseVideo .courseListNoVideo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  background-color: #c3c8ca;
+  color: #fff;
+  padding: 0 10px;
+}
+.crContainer .crBody .crItem .courseList li .courseMain .courseVideo .courseListNoVideo img {
+  margin-right: 5px;
+}
+.crContainer .crBody .crItem .courseList li .courseMain .courseBody {
+  padding: 8px 12px;
+}
+.crContainer .crBody .crItem .courseList li .courseMain .courseBody div {
+  display: flex;
+}
+.crContainer .crBody .crItem .courseList li .courseMain .courseBody div.sx {
+  background: url("../assets/student/sx.png") no-repeat right center;
+  background-size: 15px;
+}
+.crContainer .crBody .crItem .courseList li .courseMain .courseBody div.yw {
+  background: url("../assets/student/yw.png") no-repeat right center;
+  background-size: 15px;
+}
+.crContainer .crBody .crItem .courseList li .courseMain .courseBody div.sw {
+  background: url("../assets/student/sw.png") no-repeat right center;
+  background-size: 15px;
+}
+.crContainer .crBody .crItem .courseList li .courseMain .courseBody div.dl {
+  background: url("../assets/student/dl.png") no-repeat right center;
+  background-size: 15px;
+}
+.crContainer .crBody .crItem .courseList li .courseMain .courseBody div.zz {
+  background: url("../assets/student/zz.png") no-repeat right center;
+  background-size: 15px;
+}
+.crContainer .crBody .crItem .courseList li .courseMain .courseBody div.yy {
+  background: url("../assets/student/yy.png") no-repeat right center;
+  background-size: 15px;
+}
+.crContainer .crBody .crItem .courseList li .courseMain .courseBody div.wl {
+  background: url("../assets/student/wl.png") no-repeat right center;
+  background-size: 15px;
+}
+.crContainer .crBody .crItem .courseList li .courseMain .courseBody div.hx {
+  background: url("../assets/student/hx.png") no-repeat right center;
+  background-size: 15px;
+}
+.crContainer .crBody .crItem .courseList li .courseMain .courseBody div.ls {
+  background: url("../assets/student/ls.png") no-repeat right center;
+  background-size: 15px;
+}
+.crContainer .crBody .crItem .courseList li .courseBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 42px;
+}
+.crContainer .crBody .crItem .courseList li .courseBtn span {
+  cursor: pointer;
+  width: 60px;
+  height: 22px;
+  font-size: 12px;
+  display: block;
+  margin: 0 auto;
+  line-height: 20px;
+  text-align: center;
+  border-radius: 2px;
+}
+.crContainer .crBody .crItem .courseList li .courseBtn .writeComment {
+  border-radius: 2px;
+  border: 1px solid #e84f64;
+  color: #e84f64;
+}
+.crContainer .crBody .crItem .courseList li .courseBtn .writeComment:hover {
+  border: 1px solid #ed7283;
+  color: #ed7283;
+}
+.crContainer .crBody .crItem .courseList li .courseBtn .writeComment:active {
+  border: 1px solid #ba3f50;
+  color: #ba3f50;
+}
+.crContainer .crBody .crItem .courseList li .courseBtn .readComment {
+  color: #a58e91;
+  border: 1px solid #a58e91;
+}
+.crContainer .crBody .crItem .courseList li .courseBtn .readComment:hover {
+  border: 1px solid #b7a5a7;
+  color: #b7a5a7;
+}
+.crContainer .crBody .crItem .courseList li .courseBtn .readComment:active {
+  border: 1px solid #847274;
+  color: #847274;
+}
+.crContainer .crBody .crItem .courseList li .courseBtn .readFeedback {
+  color: #fe5d3e;
+  border: 1px solid #fe5d3e;
+}
+.crContainer .crBody .crItem .courseList li .courseBtn .readFeedback:hover {
+  border: 1px solid #fe7d65;
+  color: #fe7d65;
+}
+.crContainer .crBody .crItem .courseList li .courseBtn .readFeedback:active {
+  border: 1px solid #cb4a32;
+  color: #cb4a32;
+}
+.crContainer .crBody .crItem .courseList li .courseBtn .nullFeedback {
+  color: #dadada;
+  border: 1px solid #dadada;
+  cursor: not-allowed;
+}
+.videoWarp {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.7);
+  left: 0;
+  top: 0;
+  z-index: 6;
+}
+.videoWarp .videoContain {
+  width: 59%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+}
+.videoWarp .videoContain .videoHead {
+  height: 24px;
+  background-color: #000;
+  text-align: right;
+}
+.videoWarp .videoContain .videoHead img {
+  width: 12px;
+  height: 12px;
+  margin: 6px 5px 0 0;
+  cursor: pointer;
+}
+.videoWarp .videoContain .videoBody {
+  width: 100%;
+  padding-top: 56.25%;
+  position: relative;
+  padding-bottom: 54px;
+  min-height: 450px;
+}
+.videoWarp .videoContain .videoBody .videoMain {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+.commentWindow .ivu-modal .ivu-modal-body {
+  padding: 0;
+}
+.commentWindow .ivu-modal .ivu-modal-body .commentMain {
+  height: 120px;
+  background-image: linear-gradient(to right, #eb6475 0%, #f76e4d 50%);
+  padding-top: 10px;
+}
+.commentWindow .ivu-modal .ivu-modal-body .commentMain .commentName {
+  padding-left: 110px;
+  background: url("../assets/images/tanks.png") no-repeat 56px center;
+  height: 36px;
+  color: #fff;
+  line-height: 36px;
+  font-size: 14px;
+}
+.commentWindow .ivu-modal .ivu-modal-body .commentMain .commentName b {
+  font-size: 16px;
+}
+.commentWindow .ivu-modal .ivu-modal-body .commentMain .commentStar {
+  width: 240px;
+  margin-left: 110px;
+  position: relative;
+  margin-top: 15px;
+}
+.commentWindow .ivu-modal .ivu-modal-body .commentMain .commentStar .commentStarBg {
+  display: flex;
+}
+.commentWindow .ivu-modal .ivu-modal-body .commentMain .commentStar .commentStarBg i {
+  display: block;
+  background: url("../assets/images/starBg.png") no-repeat;
+  width: 28px;
+  height: 27px;
+  margin-right: 25px;
+}
+.commentWindow .ivu-modal .ivu-modal-body .commentMain .commentStar .commentStarBg i:last-child {
+  margin-right: 0;
+}
+.commentWindow .ivu-modal .ivu-modal-body .commentMain .commentStar .commentStarG {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+.commentWindow .ivu-modal .ivu-modal-body .commentMain .commentStar .commentStarG i {
+  display: flex;
+  background: url("../assets/images/star.png") no-repeat;
+  width: 28px;
+  height: 27px;
+  margin-right: 25px;
+}
+.commentWindow .ivu-modal .ivu-modal-body .commentMain .commentStar .commentStarG i:last-child {
+  margin-right: 0;
+}
+.commentWindow .ivu-modal .ivu-modal-body .commentBottom {
+  background-color: #fff;
+  padding: 15px 30px;
+}
+.commentWindow .ivu-modal .ivu-modal-body .commentBottom h3 {
+  font-weight: normal;
+  font-size: 16px;
+  color: #ff5e3d;
+  margin-bottom: 10px;
+}
+.commentWindow .ivu-modal .ivu-modal-body .commentBottom ul {
+  margin-bottom: 10px;
+  display: flex;
+  flex-wrap: wrap;
+}
+.commentWindow .ivu-modal .ivu-modal-body .commentBottom ul li {
+  padding: 0 10px;
+  border-radius: 3px;
+  font-size: 12px;
+  line-height: 2;
+  color: #ff5e3d;
+  margin-right: 14px;
+  margin-bottom: 9px;
+  background: #ffe0db;
+}
+.commentWindow .ivu-modal .ivu-modal-body .commentBottom p {
+  font-size: 12px;
+  color: #4c4245;
+}

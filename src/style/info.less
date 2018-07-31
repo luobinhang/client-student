@@ -1,0 +1,60 @@
+@import "../my-theme/info.less";
+.info-content{
+  padding: 20px 30px;
+  width: 100%;
+  .info-item{
+    .info-title{
+      font-size: 14px;
+      color: #4c4245;
+      line-height: 36px;
+      border-bottom: 1px solid #e3e3e3;
+    }
+    .info-detail{
+      display: flex;
+      padding: 30px 0;
+      .info-img{
+        margin:17px 30px 17px 0;
+        width: 67px;
+        height: 67px;
+        border-radius: 67px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .info-header{
+          height: 100%;
+          width: 100%;
+          position: relative;
+          background: #f1f1f1 url("../assets/teacher/defaultHeader.png") no-repeat center;
+          background-size: 100%;
+          img{
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            max-width: 100%;
+            max-height: 100%;
+            transform: translate3d(-50%,-50%,0);
+          }
+          .info-header-user{
+            background: #f1f1f1;
+            height: 100%;
+          }
+        }
+      }
+      .info-data{
+        flex: 5;
+        display: flex;
+        .item{
+          max-width: 50%;
+          p{
+            padding: 14px 30px;
+            line-height: 1.5;
+            font-size: 14px;
+            min-width: 200px;
+          }
+        }
+      }
+    }
+  }
+}
+

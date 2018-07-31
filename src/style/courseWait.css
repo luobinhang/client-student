@@ -1,0 +1,204 @@
+.cwContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.cwContainer .card:before {
+  z-index: -1;
+}
+.cwContainer .cwBody {
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  flex: 5;
+}
+.cwContainer .cwBody .courseList {
+  padding: 10px 0;
+}
+.cwContainer .cwBody .courseList .cwDate {
+  font-size: 14px;
+  padding: 15px 0 0 26px;
+}
+.cwContainer .cwBody .courseList ul {
+  display: flex;
+  flex-wrap: wrap;
+}
+.cwContainer .cwBody .courseList ul li {
+  width: 220px;
+  height: 96px;
+  position: relative;
+  margin: 15px 26px;
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex;
+}
+.cwContainer .cwBody .courseList ul li .courseMain {
+  flex: 5;
+  display: flex;
+  align-items: center;
+}
+.cwContainer .cwBody .courseList ul li .courseMain .courseIcon {
+  width: 44px;
+  height: 75px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+}
+.cwContainer .cwBody .courseList ul li .courseMain .courseDetail {
+  flex: 5;
+  padding: 0 15px 0 10px;
+}
+.cwContainer .cwBody .courseList ul li .courseMain .courseDetail h3 {
+  color: #73676b;
+  font-size: 14px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+.cwContainer .cwBody .courseList ul li .courseMain .courseDetail h3 em {
+  font-style: normal;
+  letter-spacing: 1px;
+}
+.cwContainer .cwBody .courseList ul li .courseMain .courseDetail .courseInfo {
+  display: flex;
+  flex-direction: column;
+}
+.cwContainer .cwBody .courseList ul li .courseMain .courseDetail .courseInfo .courseInfoMain {
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+}
+.cwContainer .cwBody .courseList ul li .courseMain .courseDetail .courseInfo .courseInfoMain p {
+  line-height: 25px;
+  color: #a29c9e;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 7.5em;
+}
+.cwContainer .cwBody .courseList ul li .courseMain .courseDetail .courseInfo .courseInfoMain .enterRoom button {
+  padding: 2px 4px;
+}
+.cwContainer .cwBody .courseList ul li .courseMain .courseDetail .courseInfo .courseInfoMain .enterRoom button[disabled] {
+  color: #fff;
+  background-color: #dadada;
+  border-color: #dadada;
+}
+.cwContainer .cwBody .courseList ul li .courseMain .courseDetail .courseInfo .lateTime,
+.cwContainer .cwBody .courseList ul li .courseMain .courseDetail .courseInfo .rangeTime {
+  text-align: right;
+  color: #e74e66;
+  margin-top: 2px;
+}
+.cwContainer .cwBody .courseList ul li .courseMain.sx {
+  background-color: #ecf3fc;
+}
+.cwContainer .cwBody .courseList ul li .courseMain.sx .courseIcon .icon {
+  background: url("../assets/student/sx.png") no-repeat center;
+  width: 23px;
+  height: 23px;
+}
+.cwContainer .cwBody .courseList ul li .courseMain.yw {
+  background-color: #fae9ee;
+}
+.cwContainer .cwBody .courseList ul li .courseMain.yw .courseIcon .icon {
+  background: url("../assets/student/yw.png") no-repeat center;
+  width: 21px;
+  height: 21px;
+}
+.cwContainer .cwBody .courseList ul li .courseMain.sw {
+  background-color: rgba(215, 94, 145, 0.1);
+}
+.cwContainer .cwBody .courseList ul li .courseMain.sw .courseIcon .icon {
+  background: url("../assets/student/sw.png") no-repeat center;
+  width: 20px;
+  height: 22px;
+}
+.cwContainer .cwBody .courseList ul li .courseMain.dl {
+  background-color: rgba(134, 210, 177, 0.1);
+}
+.cwContainer .cwBody .courseList ul li .courseMain.dl .courseIcon .icon {
+  background: url("../assets/student/dl.png") no-repeat center;
+  width: 24px;
+  height: 22px;
+}
+.cwContainer .cwBody .courseList ul li .courseMain.zz {
+  background-color: #e3f4f7;
+}
+.cwContainer .cwBody .courseList ul li .courseMain.zz .courseIcon .icon {
+  background: url("../assets/student/zz.png") no-repeat center;
+  width: 21px;
+  height: 22px;
+}
+.cwContainer .cwBody .courseList ul li .courseMain.yy {
+  background-color: #f3edfc;
+}
+.cwContainer .cwBody .courseList ul li .courseMain.yy .courseIcon .icon {
+  background: url("../assets/student/english.png") no-repeat center;
+  width: 21px;
+  height: 21px;
+}
+.cwContainer .cwBody .courseList ul li .courseMain.wl {
+  background-color: rgba(115, 117, 215, 0.2);
+}
+.cwContainer .cwBody .courseList ul li .courseMain.wl .courseIcon .icon {
+  background: url("../assets/student/wl.png") no-repeat center;
+  width: 21px;
+  height: 21px;
+}
+.cwContainer .cwBody .courseList ul li .courseMain.hx {
+  background-color: rgba(95, 168, 241, 0.2);
+}
+.cwContainer .cwBody .courseList ul li .courseMain.hx .courseIcon .icon {
+  background: url("../assets/student/hx.png") no-repeat center;
+  width: 22px;
+  height: 22px;
+}
+.cwContainer .cwBody .courseList ul li .courseMain.ls {
+  background-color: rgba(245, 157, 135, 0.2);
+}
+.cwContainer .cwBody .courseList ul li .courseMain.ls .courseIcon .icon {
+  background: url("../assets/student/ls.png") no-repeat center;
+  width: 21px;
+  height: 21px;
+}
+.cwContainer .cwBody .courseList ul li .courseMain.kx {
+  background-color: #e3e7ff;
+}
+.cwContainer .cwBody .courseList ul li .courseMain.kx .courseIcon .icon {
+  background: url("../assets/student/kx.png") no-repeat center;
+  width: 21px;
+  height: 21px;
+}
+.cwContainer .cwBody .courseList ul li .triangleMain {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  top: 0;
+  left: 0;
+  border-top-right-radius: 4px;
+  overflow: hidden;
+}
+.cwContainer .cwBody .courseList ul li .triangleMain .triangleTop {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-right: 32px solid transparent;
+}
+.cwContainer .cwBody .courseList ul li .triangleMain.cp .triangleTop {
+  border-top: 32px solid #fea947;
+}
+.cwContainer .cwBody .courseList ul li .triangleMain.ts .triangleTop {
+  border-top: 32px solid #ff6592;
+}
+.cwContainer .cwBody .courseList ul li .testSign {
+  position: absolute;
+  top: 2px;
+  left: 3px;
+  color: #fff;
+  font-size: 12px;
+}

@@ -1,0 +1,392 @@
+@import "../my-theme/info.less";
+
+.crContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  .crHeader {
+    padding: 14px 30px 0;
+    .crHeader-main {
+      display: flex;
+      justify-content: flex-end;
+      border-bottom: 1px solid #dfdfdf;
+      padding: 11px 0;
+      & > span {
+        line-height: 27px;
+      }
+      .ivu-select-selection,
+      .ivu-input-icon,
+      .ivu-input{
+        height: 27px;
+        line-height: 27px;
+        .ivu-select-placeholder,
+        .ivu-select-selected-value{
+          height: 25px;
+          line-height: 25px;
+        }
+      }
+      .ivu-icon-ios-calendar-outline{
+        background: url(../assets/images/calendar.png) no-repeat center;
+        &:before {
+          content: ""
+        }
+      }
+      .ivu-icon-ios-close{
+        cursor: pointer ;
+      }
+      .ivu-date-picker-cells-cell-selected em, .ivu-date-picker-cells-cell-selected:hover em{
+        background-color: #e74e66;
+      }
+    }
+  }
+
+  .crHeader2-main {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 30px;
+    font-size: 14px;
+  }
+  .crBody {
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: relative;
+    padding: 0 30px;
+    flex: 5;
+    width: 100%;
+    .crItem{
+      width: 100%;
+      .crTitle {
+        padding: 0 0 20px 0;
+        font-size: 14px;
+      }
+      .courseList {
+        display: flex;
+        flex-wrap: wrap;
+        li {
+          width: 184px;
+          height: 215px;
+          margin-right: 33.5px;
+          border-radius: 3px;
+          overflow: hidden;
+          margin-bottom: 30px;
+          padding: 25px 18px 0;
+          position: relative;
+          background: url("../assets/student/courseRecordCard.png") no-repeat center;
+          &.evaluation {
+            background: url("../assets/student/evaluationBg.png") no-repeat center;
+            &:after{
+              position: absolute;
+              content: '测';
+              color: #fff;
+              font-size: 12px;
+              right: 11px;
+              top: 9px;
+              line-height: 1;
+            }
+          }
+          &.debug {
+            background: url("../assets/student/debugBg.png") no-repeat center;
+            &:after{
+              position: absolute;
+              content: '调';
+              color: #fff;
+              font-size: 12px;
+              right: 11px;
+              top: 9px;
+              line-height: 1;
+            }
+          }
+          .courseMain{
+            border-radius: 4px;
+            overflow: hidden;
+            background: #fff;
+            .courseVideo {
+              height: 82px;
+              position: relative;
+              overflow: hidden;
+              .playVideo {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                transition: all ease-out 250ms;
+                cursor: pointer;
+                z-index: 2;
+                & > img {
+                  position: absolute;
+                  top: 50%;
+                  left: 50%;
+                  width: 31px;
+                  margin: -15.5px 0 0 -15.5px;
+                  transform: scale(2);
+                  transition: all ease-out 250ms;
+                  opacity: 0;
+                }
+                &:hover{
+                  background-color: rgba(0, 0, 0, 0.5);
+                  &> img{
+                    opacity: 1;
+                    transform: scale(1);
+                  }
+                }
+              }
+              .courseListNoVideo{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100%;
+                background-color: #c3c8ca;
+                color: #fff;
+                padding: 0 10px;
+                img{
+                  margin-right: 5px;
+                }
+              }
+            }
+            .courseBody {
+              padding: 8px 12px;
+              div{
+                display: flex;
+                &.sx{
+                  background: url("../assets/student/sx.png") no-repeat right center;
+                  background-size: 15px;
+                }
+                &.yw{
+                  background: url("../assets/student/yw.png") no-repeat right center;
+                  background-size: 15px;
+                }
+                &.sw{
+                  background: url("../assets/student/sw.png") no-repeat right center;
+                  background-size: 15px;
+                }
+                &.dl{
+                  background: url("../assets/student/dl.png") no-repeat right center;
+                  background-size: 15px;
+                }
+                &.zz{
+                  background: url("../assets/student/zz.png") no-repeat right center;
+                  background-size: 15px;
+                }
+                &.yy{
+                  background: url("../assets/student/yy.png") no-repeat right center;
+                  background-size: 15px;
+                }
+                &.wl{
+                  background: url("../assets/student/wl.png") no-repeat right center;
+                  background-size: 15px;
+                }
+                &.hx{
+                  background: url("../assets/student/hx.png") no-repeat right center;
+                  background-size: 15px;
+                }
+                &.ls{
+                  background: url("../assets/student/ls.png") no-repeat right center;
+                  background-size: 15px;
+                }
+              }
+            }
+          }
+          .courseBtn{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 42px;
+            span{
+              cursor: pointer;
+              width: 60px;
+              height: 22px;
+              font-size: 12px;
+              display: block;
+              margin: 0 auto;
+              line-height: 20px;
+              text-align: center;
+              border-radius: 2px;
+            }
+            .writeComment{
+              border-radius: 2px;
+              border: 1px solid #e84f64;
+              color: #e84f64;
+              &:hover{
+                border: 1px solid tint(#e84f64,20%);
+                color: tint(#e84f64,20%);
+              }
+              &:active{
+                border: 1px solid shade(#e84f64,20%);
+                color: shade(#e84f64,20%);
+              }
+            }
+            .readComment{
+              color: #a58e91;
+              border: 1px solid #a58e91;
+              &:hover{
+                border: 1px solid tint(#a58e91,20%);
+                color: tint(#a58e91,20%);
+              }
+              &:active{
+                border: 1px solid shade(#a58e91,20%);
+                color: shade(#a58e91,20%);
+              }
+            }
+            .readFeedback{
+              color: #fe5d3e;
+              border: 1px solid #fe5d3e;
+              &:hover{
+                border: 1px solid tint(#fe5d3e,20%);
+                color: tint(#fe5d3e,20%);
+              }
+              &:active{
+                border: 1px solid shade(#fe5d3e,20%);
+                color: shade(#fe5d3e,20%);
+              }
+            }
+            .nullFeedback{
+              color: #dadada;
+              border: 1px solid #dadada;
+              cursor: not-allowed;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.videoWarp {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.7);
+  left: 0;
+  top: 0;
+  z-index: 6;
+  .videoContain {
+    //width: 632px;
+    //height: 434px;
+    width:59%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    .videoHead {
+      height: 24px;
+      background-color: #000;
+      text-align: right;
+      img {
+        width: 12px;
+        height: 12px;
+        margin: 6px 5px 0 0;
+        cursor: pointer;
+      }
+    }
+    .videoBody {
+      //height: 355px;
+      width: 100%;
+      padding-top: 56.25%;
+      position: relative;
+      padding-bottom: 54px;
+      .videoMain{
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+      }
+      min-height: 450px;
+    }
+  }
+}
+
+
+.commentWindow{
+  .ivu-modal{
+    .ivu-modal-body{
+      padding: 0;
+      .commentMain{
+        height: 120px;
+        background-image: linear-gradient(to right, #eb6475 0%, #f76e4d 50%);
+        padding-top: 10px;
+        .commentName{
+          padding-left: 110px;
+          background: url("../assets/images/tanks.png") no-repeat 56px center;
+          height: 36px;
+          color: #fff;
+          line-height: 36px;
+          font-size: 14px;
+          b{
+            font-size: 16px;
+          }
+        }
+        .commentStar{
+          width: 240px;
+          margin-left: 110px;
+          position: relative;
+          margin-top: 15px;
+          .commentStarBg{
+            display: flex;
+            i{
+              display: block;
+              background: url("../assets/images/starBg.png") no-repeat;
+              width: 28px;
+              height: 27px;
+              margin-right: 25px;
+              &:last-child{
+                margin-right: 0;
+              }
+            }
+          }
+          .commentStarG{
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            i{
+              display: flex;
+              background: url("../assets/images/star.png") no-repeat;
+              width: 28px;
+              height: 27px;
+              margin-right: 25px;
+              &:last-child{
+                margin-right: 0;
+              }
+            }
+          }
+        }
+
+      }
+      .commentBottom{
+        background-color: #fff;
+        padding: 15px 30px;
+        h3{
+          font-weight: normal;
+          font-size: 16px;
+          color: #ff5e3d;
+          margin-bottom: 10px;
+        }
+        ul{
+          margin-bottom: 10px;
+          display: flex;
+          flex-wrap: wrap;
+          li{
+            padding: 0 10px;
+            border-radius: 3px;
+            font-size: 12px;
+            line-height: 2;
+            color: #ff5e3d;
+            margin-right: 14px;
+            margin-bottom: 9px;
+            background: #ffe0db;
+          }
+        }
+        p{
+          font-size: 12px;
+          color: #4c4245;
+        }
+      }
+    }
+  }
+}
+
