@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>智能测评</title>
+  <link rel="icon" href="images/favicon.ico" type="image/vnd.microsoft.icon">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+  <meta name="format-detection" content="telephone=no"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="email=no"/>
+  <script src="js/zepto.min.js"></script>
+  <script>
+    function rem () {
+      var screenWidth = $(window).width() >= 640 ? 640 : $(window).width();
+      var fs = screenWidth / 750 * 100; //屏幕宽度/设计图*100 （设计图1px rem100px）
+      $('html').css('fontSize',fs)
+    }
+    rem();
+    $(window).on('resize',rem)
+  </script>
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+  <section class="wrapper">
+    <header class="header"></header>
+    <section class="content">
+      <a href="javascript:;" class="high"></a>
+      <a href="javascript:;" class="middle"></a>
+      <a href="javascript:;" class="primary"></a>
+    </section>
+  </section>
+
+  <div class="signBox">
+    <div class="signForm">
+      <h1>嗨课堂测评</h1>
+      <div class="signFormMain">
+        <input type="text" placeholder="姓名" class="name">
+        <input type="tel" placeholder="手机号" maxlength="11" class="phone">
+        <div class="select">
+          <select name="province" class="province">
+            <option value="">请选择省份</option>
+          </select>
+        </div>
+        <p class="tip"></p>
+      </div>
+      <button class="submit">
+        <span>立即进入</span>
+      </button>
+    </div>
+  </div>
+
+  <script src="js/api.config.js"></script>
+  <script>
+    $(function () {
+      //获取URL参数
+      function GetQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)","i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r!=null) return (r[2]); return null;
+      }
+
+      var phone = GetQueryString("phone");
+
+      if(phone) {
+        $.ajax({
+          type: 'post',
+          dataType: 'json',
+          data: {
+            phone: phone
+          },
+          url: API + '/ryBasic/getRyStudentLoginInfoByPhone',
+          success: function (res) {
+            var data = res.data.ryStudentLoginInfo;
+            if(data) {
+              $(".name").val(data.stuName).attr('disabled',true);
+              $(".phone").val(data.phone).attr('disabled',true);
+              provinceAjax(data.locationId)
+            } else {
+              provinceAjax()
+            }
+          },
+          error: function (err) {
+            alert('网络繁忙，请稍后刷新重试')
+          }
+        })
+      } else {
+        provinceAjax()
+      }
+
+
+      $('input').on('focus',function() {
+        $(this).css('border-color','#ff596c')
+      }).on('blur',function () {
+        $(this).css('border-color','#d2d2d2')
+      })
+      var nameVal,phoneVal,province;
+      $(".submit").on('click',function () {
+        var nameREG = /^[\u4e00-\u9fa5]{0,}$|^[A-Za-z]+$/; //中文或英文
+        var phoneREG = /^1\d{10}$/; //手机
+        nameVal = $(".name").val();
+        phoneVal = $(".phone").val();
+        provinceVal = $(".province").val();
+        if(nameVal === '') {
+          $('.tip').text('姓名错误').show()
+        } else if(!phoneREG.test(phoneVal)) {
+          $('.tip').text('手机号错误').show()
+        } else if(!provinceVal) {
+          $('.tip').text('请选择省份').show()
+        } else {
+          $('.tip').text('').hide()
+          $(this).attr('disabled',true).find('span').text('请稍后...')
+          $.ajax({
+            type: 'post',
+            dataType: 'json',
+            data: {
+              name: nameVal,
+              phone: phoneVal,
+            },
+            url: API + '/ryUser/studentLogin',
+            success: function (res) {
+              var ryAccount = JSON.stringify(res.data.ryAccount);
+              sessionStorage.setItem('ryAccount',ryAccount)
+              sessionStorage.setItem('phone',phoneVal)
+              sessionStorage.setItem('name',nameVal)
+              sessionStorage.setItem('provinceId',provinceVal)
+              $(".signBox").hide();
+            },
+            error: function (err) {
+              alert('网络繁忙，请稍后刷新重试')
+            }
+          })
+
+
+
+        }
+      })
+
+      $(".content a").on('click',function () {
+        var enumValue = $(this).data('ev');
+        if(enumValue) {
+          sessionStorage.setItem('enumValue',enumValue)
+          window.location.href = './course.html';
+        } else {
+          alert('网络繁忙，请稍后刷新重试')
+        }
+
+      })
+
+      $.ajax({
+        type: 'post',
+        dataType: 'json',
+        url: API + '/ryBasic/getStudySection',
+        success: function (res) {
+          res.data.studySectionList.forEach(function (v,i) {
+            $(".content a").eq(i).attr('data-ev',v.enumValue)
+          })
+        },
+        error: function (err) {
+          alert('网络繁忙，请稍后刷新重试')
+        }
+      })
+
+      function provinceAjax (id) {
+        $.ajax({
+          type: 'post',
+          dataType: 'json',
+          url: API + '/ryBasic/getLocationInfo',
+          success: function (res) {
+            var options = '';
+            res.data.locationInfoList.forEach(function (v,i) {
+              var select = id == v.locationId ? 'selected' : '';
+              options += `<option ${select} value="${v.locationId}">${v.locationName}</option>`;
+              if(id) $(".province").css("color","#131313");
+            })
+            $('.province').append(options)
+          },
+          error: function (err) {
+            alert('网络繁忙，请稍后刷新重试')
+          }
+        })
+      }
+
+      $(".province").on('change',function () {
+        var provice = $(this).val();
+        if(provice) {
+          $(this).css("color","#131313")
+        } else {
+          $(this).css("color","#757575")
+        }
+      })
+
+    })
+  </script>
+</body>
+</html>

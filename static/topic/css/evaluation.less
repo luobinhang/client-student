@@ -1,0 +1,124 @@
+body{
+  background-color: #f4f4f4;
+  &.hidden{
+    overflow: hidden;
+  }
+}
+.wrapper{
+  header{
+    position: relative;
+    line-height: .88rem;
+    background-color: #fff;
+    h2{
+      text-align: center;
+      font-size: .38rem;
+      color: #000000;
+    }
+    .pageNumber{
+      position: absolute;
+      right: .3rem;
+      color: #b9b9b9;
+      font-size: .28rem;
+      top: 0;
+
+      .current{
+        color: #ff3e54;
+      }
+    }
+  }
+
+  .swiper-container{
+    width: 6.9rem;
+    margin: .26rem auto .8rem;
+    background-color: #fff;
+    font-size: .26rem;
+    color: #1c1c1c;
+    .swiper-wrapper{
+
+      .swiper-slide{
+        padding: .24rem;
+
+        .select{
+          padding: .5rem 0;
+          p{
+            width: 5.3rem;
+          }
+          img{
+            display: inline-block;
+            max-height: 1.5rem;
+            width: auto;
+            vertical-align: middle;
+          }
+        }
+        p{
+          display: inline-block;
+          vertical-align: middle;
+        }
+        img{
+          max-width: 100%;
+          max-height: 3rem;
+          width: auto;
+        }
+        .option{
+          width: .74rem;
+          height: .74rem;
+          line-height: .74rem;
+          border-radius: 50%;
+          background-color: #f8f8f8;
+          display: inline-block;
+          text-align: center;
+          margin-right: .3rem;
+          &.active{
+            background: -webkit-linear-gradient(left, #ff4657 , #ff6977); /* Safari 5.1 - 6.0 */
+            background: -o-linear-gradient(right, #ff4657, #ff6977); /* Opera 11.1 - 12.0 */
+            background: -moz-linear-gradient(right, #ff4657, #ff6977); /* Firefox 3.6 - 15 */
+            background: linear-gradient(to right, #ff4657 , #ff6977); /* 标准的语法 */
+            color: #fff;
+          }
+        }
+        .br{
+          height: .2rem;
+          display: block;
+        }
+      }
+    }
+  }
+
+
+  footer{
+    width: 6.44rem;
+    margin: .3rem auto;
+    button{
+      width: 2.74rem;
+      height: .8rem;
+      font-size: .30rem;
+      border-radius: .4rem;
+      background-color: #f4f4f4;
+    }
+    .prev{
+      float: left;
+      border: 1px solid #b9b9b9;
+      color: #6c6c6c;
+    }
+    .next{
+      float: right;
+      color: #fff;
+      background: -webkit-linear-gradient(left, #ff6243 , #ff9955); /* Safari 5.1 - 6.0 */
+      background: -o-linear-gradient(right, #ff6243, #ff9955); /* Opera 11.1 - 12.0 */
+      background: -moz-linear-gradient(right, #ff6243, #ff9955); /* Firefox 3.6 - 15 */
+      background: linear-gradient(to right, #ff6243 , #ff9955); /* 标准的语法 */
+    }
+    .next[disabled] {
+      opacity: .5;
+    }
+  }
+}
+.loading{
+  position: fixed;
+  z-index: 999;
+  width: 100%;
+  height: 100%;
+  max-width: 640px;
+  top: 0;
+  background: #fff url("../images/loading.gif") no-repeat center / 1.6rem;
+}

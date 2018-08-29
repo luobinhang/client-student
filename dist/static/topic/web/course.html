@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>智能测评</title>
+  <link rel="icon" href="images/favicon.ico" type="image/vnd.microsoft.icon">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+  <meta name="format-detection" content="telephone=no"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="email=no"/>
+  <script src="js/jquery.js"></script>
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/course.css">
+</head>
+<body class="hidden">
+<div class="loading"></div>
+<nav>
+  <div class=grid>
+    <img src="./images/log.png" height=100 width=400 alt="">
+  </div>
+</nav>
+<header class="header-title">
+  <!--高一测评-->
+</header>
+  <div class="wrapper grid">
+    <ul></ul>
+  </div>
+
+<script src="js/api.config.js"></script>
+<script>
+  $(function () {
+    var enumValue = sessionStorage.getItem('enumValue');
+    var ryAccount = sessionStorage.getItem('ryAccount');
+    var name = sessionStorage.getItem('name');
+    var phone = sessionStorage.getItem('phone');
+    var gradeEnumValue = null; //全局年级值
+    var courseEnumValue = null; //全局科目值
+    var selectList = '';  //选项dom
+    var renderHtml = ''; //页面渲染dom数据
+    var isFirst = true;  //是否首次渲染
+    var pointId = 0; //0:知识点 1:章节
+    var versionId = null; // 教材版本号
+    switch (enumValue){
+      case "1" :
+        $(".header-title").html("小学测评");
+        break;
+      case "2" :
+        $(".header-title").html("初中测评");
+        break;
+      case "3" :
+        $(".header-title").html("高中测评");
+        break;
+    }
+
+    function selectRender (data,listName) {  //选项render函数
+      selectList = ''
+      var active = 'class="active"';
+      data[listName].forEach(function (v,i) {
+        var dataEnumValue = v.enumValue?`data-gradevalue=${v.enumValue}` : '';
+        var bookVersionId = v.bookVersionId?`data-bookversionid=${v.bookVersionId}` : '';
+        var enumName = v.enumName?`data-enumname=${v.enumName}` : '';
+        var nodeId = v.nodeId?`data-nodeid=${v.nodeId}` : '';
+        selectList += `<span ${active} ${dataEnumValue} ${bookVersionId} ${nodeId} ${enumName}>${v.enumName || v.bookVersionName || v.nodeName}</span>`
+        active = '';
+      })
+    }
+
+
+
+
+    function render (data,listName,name,className) {  //盒子render函数
+      selectRender(data,listName)
+      renderHtml += `<li class="${className}">
+                        <div class="title">
+                          <h2>${name}</h2>
+                        </div>
+                        <div class="selectBox">
+                          <div class="flexBox clearfix">
+                            ${selectList}
+                          </div>
+                        </div>
+                      </li>`;
+    }
+
+
+    var renderArr = [  //初始化固定渲染数据
+      {
+        name: '年级',
+        listName: 'gradeList',
+        className: 'grade',
+      },
+      {
+        name: '试卷难度',
+        listName: 'questionLevelList',
+        className: 'level',
+      },
+      {
+        name: '科目',
+        listName: 'courseList',
+        className: 'subject'
+      },
+
+    ]
+
+    //年级、试卷难度、科目渲染
+    var sectionAjax = function () {
+      return new Promise(function (resolve,reject) {
+        $.ajax({
+          type: 'post',
+          data: {
+            studySection: enumValue,
+          },
+          dataType: 'json',
+          url: API + '/ryBasic/getCourseGradeByStudySection',
+          success: function (res) {
+            var data = res.data;
+            gradeEnumValue = data.ryCourseGrade.gradeList[0].enumValue;
+            courseEnumValue = data.ryCourseGrade.courseList[0].enumValue;
+            renderArr.forEach(function (v,i) {
+              render(data.ryCourseGrade,v.listName,v.name,v.className)
+            })
+            $(".wrapper ul").append(renderHtml)
+            renderHtml = '';
+            resolve()
+          },
+          error: function (err) {
+            alert('网络繁忙，请稍后刷新重试')
+          }
+        })
+      })
+    }
+
+    //获取教材版本
+    var versionAjax = function () {
+      return new Promise(function (resolve,reject) {
+        $.ajax({
+          type: 'post',
+          data: {
+            courseId: courseEnumValue,
+          },
+          dataType: 'json',
+          url: API + '/ryBasic/getBookVersionInfo',
+          success: function (res) {
+            var data = res.data
+            versionId = data.bookList[0].bookVersionId;
+            if(isFirst) {
+              render(data,'bookList','教材版本','version')
+              $(".wrapper ul").append(renderHtml)
+              renderHtml = '';
+            } else {
+              selectRender(data,'bookList')
+              $('.version .flexBox').html(selectList)
+            }
+            resolve()
+          },
+          error: function (err) {
+            alert('网络繁忙，请稍后刷新重试')
+          }
+        })
+      })
+    }
+
+    //获取知识点
+    var pointAjax = function () {
+      return new Promise(function (resolve,reject) {
+        $.ajax({
+          type: 'post',
+          data: {
+            courseId: courseEnumValue,
+          },
+          dataType: 'json',
+          url: API + '/ryBasic/getKnowledgePoint',
+          success: function (res) {
+            selectRender(res.data,'nodeList')
+            if(isFirst) {
+              var pointHtml = `<div class="pointBox">
+                              <div class="pointTab clearfix">
+                                <span class="active">知识点</span>
+                                <span>同步章节</span>
+                              </div>
+                              <div class="selectBox point">
+                                <div class="flexBox clearfix">
+                                  ${selectList}
+                                </div>
+                              </div>
+                            </div>`
+              $(".wrapper").append(pointHtml)
+            }else {
+              $('.pointBox .flexBox').eq(0).html(selectList)
+            }
+            resolve()
+          },
+          error: function (err) {
+            alert('网络繁忙，请稍后刷新重试')
+          }
+        })
+      })
+    }
+
+    //获取章节
+    var courseAjax = function () {
+      return new Promise(function (resolve,reject) {
+        $.ajax({
+          type: 'get',
+          data: {
+            bookVersionId: Number(versionId),
+          },
+          url: API + '/ryBasic/getCourseMappingChapter',
+          success: function (res) {
+            var data = JSON.parse(res).data
+            var sectionHtml = '';
+            var active = 'class="active"';
+            data.courseMappingChapter.courseMappingList.forEach(function (v,i) {
+              var sectionMain = '';
+              v.chapterList.forEach(function (v2,i2) {
+                sectionMain+= `<span ${active} data-nodeid="${v2.nodeId}" data-parentnodeid="${v2.parentNodeId}">${v2.nodeName}</span>`
+                active = '';
+              })
+              sectionHtml += `<h3>${v.courseMappingName}</h3>
+                              <div class="flexBox clearfix" data-coursemappingid="${v.courseMappingId}">
+                                ${sectionMain}
+                              </div>`
+            })
+
+            if(isFirst) {
+              var courseHtml = `<div class="selectBox section">
+                                  ${sectionHtml}
+                                </div>`
+              $(".pointBox").append(courseHtml)
+            }else {
+              $('.pointBox .selectBox').eq(1).html(sectionHtml)
+            }
+            resolve()
+          },
+          error: function (err) {
+            alert('网络繁忙，请稍后刷新重试')
+          }
+        })
+      })
+    }
+
+    sectionAjax()
+      .then(versionAjax)
+      .then(pointAjax)
+      .then(courseAjax)
+      .then(function () {
+        isFirst = false;
+        $(".wrapper").append(`<button class="startTest"><span>开始测试</span></button>`)
+        addEventListener();
+        $(".loading").hide();
+        $("body").removeClass('hidden')
+      })
+
+
+
+
+
+    function addEventListener () {
+
+      $(".wrapper ul").on('click','span',function () {
+        $(this).addClass('active').siblings('span').removeClass('active')
+      })
+
+      $(".wrapper").on('click','.subject span',function () {
+        courseEnumValue = $(this).data('gradevalue')
+        versionAjax()
+          .then(pointAjax)
+          .then(courseAjax)
+      })
+
+      $(".wrapper").on('click','.grade span',function () {
+        gradeEnumValue = $(this).data('gradevalue')
+      })
+
+      $(".wrapper").on('click','.version span',function () {
+        versionId = $(this).data('bookversionid')
+        courseAjax();
+      })
+
+      $('.wrapper').on('click','.pointTab span',function () {
+        pointId = $(this).index();
+        $(this).addClass('active').siblings('span').removeClass('active')
+        $('.pointBox .selectBox').eq(pointId).show().siblings('.selectBox').hide();
+
+      })
+
+      $('.wrapper').on('click','.pointBox .selectBox span',function () {
+        if($(this).hasClass('active')) {
+          $(this).removeClass('active')
+        } else {
+          $(this).addClass('active')
+        }
+      })
+
+      $(".wrapper").on('click','.startTest',function () {
+        var knowledgePointIds = [];
+        var chapterIds = [];
+        $(".point .active").map(function (i,v) {
+          knowledgePointIds.push($(v).data('nodeid'))
+        })
+        $(".section .active").map(function (i,v) {
+          chapterIds.push({
+            courseMappingId: $(v).parent('.flexBox').data('coursemappingid'),
+            chapterId: $(v).data('nodeid'),
+          })
+        })
+        var sendData = JSON.stringify({
+          courseId: Number(courseEnumValue),
+          byCourseMapping: pointId,
+          questionLevelId: $(".level .active").data("gradevalue"),
+          knowledgePointIds: knowledgePointIds,
+          chapterIds: chapterIds,
+        });
+        var courseName = $(".subject .active").data('enumname')
+        sessionStorage.setItem('sendData',sendData)
+        sessionStorage.setItem('courseName',courseName)
+        sessionStorage.setItem('gradeId',gradeEnumValue)
+        sessionStorage.setItem('courseId',courseEnumValue)
+        sessionStorage.setItem('bookVersionId',versionId)
+
+
+        if(ryAccount === 'undefined') {
+          $(this).attr('disabled',true).find('span').text('请稍后...')
+          $.ajax({
+            type: 'post',
+            dataType: 'json',
+            data: {
+              name: name,
+              phone: phone,
+              gradeId: gradeEnumValue,
+              courseId: courseEnumValue,
+            },
+            url: API + '/ryUser/registerRyStudentUser',
+            success: function (res) {
+              var ryAccount = JSON.stringify(res.data.ryAccount);
+              sessionStorage.setItem('ryAccount',ryAccount)
+              window.location.href = './evaluation.html'
+            },
+            error: function (err) {
+              alert('网络繁忙，请稍后刷新重试')
+            }
+          })
+        } else {
+          window.location.href = './evaluation.html'
+        }
+      })
+    }
+  })
+</script>
+</body>
+</html>

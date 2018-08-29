@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>智能测评</title>
+  <link rel="icon" href="images/favicon.ico" type="image/vnd.microsoft.icon">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+  <meta name="format-detection" content="telephone=no"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="email=no"/>
+  <script src="js/zepto.min.js"></script>
+  <script>
+    function rem () {
+      var screenWidth = $(window).width() >= 640 ? 640 : $(window).width();
+      var fs = screenWidth / 750 * 100; //屏幕宽度/设计图*100 （设计图1px rem100px）
+      $('html').css('fontSize',fs)
+    }
+    rem();
+    $(window).on('resize',rem)
+  </script>
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/result.css">
+</head>
+<body class="hidden">
+<div class="loading"></div>
+<div class="wrapper">
+  <header></header>
+  <ul></ul>
+  <div class="bottomTip">
+    详细报告，可咨询负责课程顾问老师。<br>
+    或联系400-876-3300 预约咨询。
+  </div>
+</div>
+
+<script src="js/api.config.js"></script>
+<script>
+  $(function () {
+    //获取URL参数
+    function GetQueryString(name) {
+      var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)","i");
+      var r = window.location.search.substr(1).match(reg);
+      if (r!=null) return (r[2]); return null;
+    }
+
+
+    var examResultId = sessionStorage.getItem('examResultId');
+    var ryAccount = sessionStorage.getItem('ryAccount');
+    var ryAccountJson = JSON.parse(ryAccount)
+
+
+    var dataList = [
+      {
+        label: '知识点正确率',
+        name: 'knowledgePointAnalysis',
+        fl: '知识点',
+        fr: '正确率',
+        childrenNameL: 'displayName',
+        childrenNameR: 'studentAccuracy',
+      },
+      {
+        label: '能力',
+        name: 'abilityStructureAnalysis',
+        fl: '能力',
+        fr: '正确率',
+        childrenNameL: 'displayName',
+        childrenNameR: 'studentAccuracy',
+      },
+      {
+        label: '解题方法',
+        name: 'analyticMethodAnalysis',
+        fl: '解题方法',
+        fr: '正确率',
+        childrenNameL: 'displayName',
+        childrenNameR: 'studentAccuracy',
+      },
+      {
+        label: '题目得分情况',
+        name: 'examQuestionAnalysis',
+        fl: '序号',
+        fr: '得分情况',
+        childrenNameL: null,
+        childrenNameR: 'score',
+      },
+    ]
+
+    $.ajax({
+      type: 'get',
+      dataType: 'json',
+      data: {
+        userCode: GetQueryString('userCode'),
+        examResultId: GetQueryString('examResultId'),
+      },
+      url: API + '/ryTestAnalysis/getExamSummary',
+      success: function (res) {
+        var data = res.data;
+        dataList.forEach(function (v,i) {
+          var tr = '';
+          var percent = v.childrenNameR === 'studentAccuracy'? '%': '';
+          data.examSummary[v.name].forEach(function (v2,i2) {
+            tr += `<tr>
+                    <td class="l">${v2[v.childrenNameL] || i2+1}</td>
+                    <td class="r">${v2[v.childrenNameR]}${percent}</td>
+                  </tr>`
+          })
+          var li = `<li>
+                      <div class="title">
+                        <h2>${v.label}</h2>
+                      </div>
+                      <table cellspacing="0" cellpadding="0" border="0">
+                        <tr>
+                          <th class="l">${v.fl}</th>
+                          <th class="r">${v.fr}</th>
+                        </tr>
+                         ${tr}
+                      </table>
+                    </li>`
+          if(data.examSummary[v.name].length) {
+            $('.wrapper ul').append(li)
+          }
+        })
+        $(".loading").hide();
+        $("body").removeClass('hidden')
+      },
+      error: function (err) {
+        alert('网络繁忙，请稍后刷新重试')
+      }
+    })
+
+  })
+</script>
+</body>
+</html>

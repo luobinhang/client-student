@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>智能测评</title>
+  <link rel="icon" href="images/favicon.ico" type="image/vnd.microsoft.icon">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+  <meta name="format-detection" content="telephone=no"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="email=no"/>
+  <script src="js/zepto.min.js"></script>
+  <script>
+    function rem () {
+      var screenWidth = $(window).width() >= 640 ? 640 : $(window).width();
+      var fs = screenWidth / 750 * 100; //屏幕宽度/设计图*100 （设计图1px rem100px）
+      $('html').css('fontSize',fs)
+    }
+    rem();
+    $(window).on('resize',rem)
+  </script>
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/evaluation.css">
+  <link rel="stylesheet" href="css/swiper-4.3.5.min.css">
+</head>
+<body class="hidden">
+<div class="loading"></div>
+<div class="wrapper">
+  <header>
+    <h2></h2>
+    <div class="pageNumber">
+      <span class="current">1</span>/<span class="total">10</span>
+    </div>
+  </header>
+  <div class="swiper-container">
+    <div class="swiper-wrapper">
+    </div>
+  </div>
+  <footer class="clearfix">
+    <button class="prev">上一题</button>
+    <button class="next" disabled>下一题</button>
+  </footer>
+</div>
+
+<script src="js/api.config.js"></script>
+<script src="js/swiper-4.3.5.min.js"></script>
+<script>
+  $(function () {
+    var sendData = sessionStorage.getItem('sendData');
+    var ryAccount = sessionStorage.getItem('ryAccount');
+    var ryAccountJson = JSON.parse(ryAccount)
+    var courseName = sessionStorage.getItem('courseName');
+    var courseId = sessionStorage.getItem('courseId');
+    var bookVersionId = sessionStorage.getItem('bookVersionId');
+    var provinceId = sessionStorage.getItem('provinceId');
+    var swiper = null;
+    var total = null;
+
+    $("header h2").text(courseName)
+    $.ajax({
+      type: 'post',
+      contentType: 'application/json',
+      dataType: 'json',
+      url: API + '/ryQuestion/getQuestionsByIntelligentQuestion',
+      data: sendData,
+      success: function (res) {
+        var data = res.data;
+        if(!data.questionList) {
+          alert('题库未筛选出题目，请重新选择')
+          window.history.back()
+        }
+        var slide = '';
+        total = data.questionList.length;
+        data.questionList.forEach(function (v,i) {
+          slide += `<div class="swiper-slide" data-questionid="${v.questionId}">
+                      <p>${i+1}、${v.stem}</p>
+                      <div class="select">
+                        ${v.options.join('<b class="br"></b>')}
+                      </div>
+                    </div>`
+        })
+        $(".swiper-wrapper").html(slide)
+        $(".total").text(total)
+        $(".select span").forEach(function (v,i) {
+          if($(v).attr('rt') === 'ryquestionoption') {
+            $(v).addClass('option').text($(v).text().substring(0,1))
+          }
+        })
+        swiperStart();
+        $(".loading").hide();
+        $("body").removeClass('hidden')
+      },
+      error: function (err) {
+        alert('网络繁忙，请稍后刷新重试')
+      }
+    })
+
+    $(".wrapper").on('click','.option',function () {
+      $(this).parent('.select').children('.option').removeClass('active')
+      $(this).addClass('active')
+      $(".next").removeAttr('disabled')
+    })
+
+    $(".next").on('click',function () {
+      swiper.slideNext();
+      $(window).scrollTop(0)
+      if($(this).text() === '提交' && $('.swiper-slide .active').length === total) {
+        $(this).text('提交中').attr('disabled',true)
+        $('.prev').attr('disabled',true)
+        var answerRecordList = $('.swiper-slide').map(function (i,v) {
+          return {
+            questionId: $(v).data('questionid'),
+            studentAnswer:$(v).find('.active').text()
+          }
+        }).selector;
+        $.ajax({
+          type: 'post',
+          contentType: 'application/json',
+          dataType: 'json',
+          data: JSON.stringify({
+            userCode: ryAccountJson.userCode,
+            bookVersionId: bookVersionId,
+            courseId: courseId,
+            answerRecordList: answerRecordList,
+            locationId: Number(provinceId),
+          }),
+          url: API + '/ryQuestion/submitExam',
+          success: function (res) {
+            var data = res.data
+            sessionStorage.setItem('examResultId',data.examResultId)
+            window.location.href = `./result.html?userCode=${ryAccountJson.userCode}&examResultId=${data.examResultId}`
+          },
+          error: function (err) {
+            alert('网络繁忙，请稍后刷新重试')
+          }
+        })
+      }
+    })
+
+    $(".prev").on('click',function () {
+      $(window).scrollTop(0)
+      swiper.slidePrev();
+    })
+
+
+    function swiperStart () {
+      swiper = new Swiper('.swiper-container', {
+        allowTouchMove: false,
+        preventClicks: false,
+        speed: 0,
+        on: {
+          slideChangeTransitionStart: function(){
+            $(".current").text(this.activeIndex + 1)
+
+            if($('.swiper-slide-active .option').hasClass('active')) {
+              $(".next").removeAttr('disabled')
+            } else {
+              $(".next").attr('disabled',true)
+            }
+
+
+          },
+          slideChangeTransitionEnd: function () {
+            if(this.activeIndex === total - 1) {
+              $(".next").text('提交')
+            } else {
+              $(".next").text('下一题')
+            }
+          }
+        },
+      })
+    }
+
+  })
+</script>
+</body>
+</html>

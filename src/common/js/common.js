@@ -149,8 +149,10 @@ Axios.interceptors.response.use(
     });
 
     //调用C++404页面
-    let args = '{"requesttype":33,"data" : {}}';
-    sendData(args);
+    if(location.hash !== '#/upload') {
+      let args = '{"requesttype":33,"data" : {}}';
+      sendData(args);
+    }
 
     return Promise.reject(error);
   }

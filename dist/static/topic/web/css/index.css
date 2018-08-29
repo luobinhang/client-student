@@ -1,0 +1,129 @@
+.wrapper {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+.content {
+  background: url("../images/bottom.png") no-repeat bottom center / 100% 157px;
+  padding-bottom: 157px;
+  padding-top: 26px;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-justify-content: space-around;
+  justify-content: space-around;
+  -webkit-box-orient: vertical;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.content a img {
+  height: 160px;
+  width: auto;
+}
+.signBox {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  top: 0;
+  z-index: 999;
+}
+.signBox .signForm {
+  background: #fff url("../images/boxBg.jpg") no-repeat top center / 100% 103px;
+  width: 644px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  border-radius: 7px;
+  color: #131313;
+  padding-bottom: 10px;
+}
+.signBox .signForm h1 {
+  font-size: 24px;
+  text-align: center;
+  padding: 35px 0 27px;
+  line-height: 1;
+}
+.signBox .signForm .signFormMain {
+  position: relative;
+  width: 300px;
+  margin: 0 auto;
+}
+.signBox .signForm input {
+  display: block;
+  height: 45px;
+  font-size: 16px;
+  margin-bottom: 20px;
+  border-radius: 7px;
+  background: #fff;
+  border: 1px solid #d2d2d2;
+  padding: 0 17px;
+  width: 100%;
+}
+.signBox .signForm select {
+  display: block;
+  height: 45px;
+  font-size: 16px;
+  margin-bottom: 20px;
+  border-radius: 7px;
+  background: #fff;
+  border: 1px solid #d2d2d2;
+  padding: 0 17px;
+  width: 100%;
+  outline: none;
+  color: #757575;
+}
+.signBox .signForm .tip {
+  color: #ff596c;
+  font-size: 13px;
+  position: absolute;
+  left: 50%;
+  bottom: -30px;
+  text-align: center;
+  width: auto;
+  line-height: 2;
+  background: url("../images/mark.png") no-repeat left center / 12px;
+  padding-left: 15px;
+  display: none;
+  -webkit-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  -o-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+.signBox .signForm button {
+  background: url("../images/start.png") no-repeat center / 100%;
+  width: 170px;
+  height: 73px;
+  display: block;
+  color: #fff;
+  font-size: 20px;
+  margin: 30px auto;
+}
+.signBox .signForm button:active {
+  background-image: url("../images/startHover.png");
+}
+.signBox .signForm button span {
+  margin-bottom: 16px;
+  display: block;
+}

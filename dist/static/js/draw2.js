@@ -27,9 +27,11 @@ function GetQueryString(name) {
 if(location.host === "clteacher.onlyhi.cn" ||  location.host === "clstudent.onlyhi.cn"){
   var API = 'http://client.onlyhi.cn/client/course/getTrackData';
   var webAPI = "file.onlyhi.cn";
+  var replaceStr = 'courseware.onlyhi.cn';
 }else{
   var API = 'http://clienttest.haiketang.net/client/course/getTrackDataNew';
   var webAPI = "filetest.haiketang.net";
+  var replaceStr = 'courseware.onlyeduhi.cn';
 }
 
 //数据初始化
@@ -62,7 +64,6 @@ function canvasBegin(){
         audio =  res.data.mp4Url?document.getElementById("video1"):document.getElementById("audio1");
         audio.src= src;
         var duration = res.data.videoDuration?res.data.videoDuration:res.data.duration;
-        canvas_div();
         abc=Math.round(duration/100);
         $(".duration").text(forMatTime(Math.round(abc/10)));
         var imgTemp = 0;
@@ -70,6 +71,16 @@ function canvasBegin(){
           for(var i = 0;i<imgUrl.length;i++){
             var imgHtml = new Image();
             imgHtml.src = imgUrl[i];
+            if(imgHtml.fileSize > 0 || (imgHtml.width > 0 && imgHtml.height > 0)) {
+              return true;
+            } else {
+              if(replaceStr === 'courseware.onlyhi.cn') {
+                imgUrl[i] = imgUrl[i].replace(/static.onlyhi.cn/g, replaceStr);
+              } else {
+                imgUrl[i] = imgUrl[i].replace(/clienttest.haiketang.net/g, replaceStr);
+              }
+              imgHtml.src = imgUrl[i];
+            }
             imgHtml.onload = function() {
               imgTemp++;
               var progress = Math.floor((imgTemp/imgUrl.length)*100)+'%'
@@ -98,6 +109,7 @@ function canvasBegin(){
 
 //媒体文件加载完毕后播放
 function audioStart(){
+  canvas_div();
   //判断是否为IOS设备（如果IOS = 1 需要用户touchstart触发）
   if(GetQueryString('device') != 'iOS'){
     var readyState = audio.readyState;
@@ -174,7 +186,7 @@ function canvas_div(){
 
 //定时器绘图方法
 function timedCountsDraw(num){
-  // console.log(num)
+  console.log(num)
   var cc=Math.max(0,parseInt(myAry[num][9]));
   $(".canvas-bg").eq(cc).css('display','block').siblings(".canvas-bg").hide();
   if(num <= 0 ) num = 1;
